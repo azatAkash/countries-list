@@ -1,13 +1,118 @@
-/* App.module.scss — optimized */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* GRID */
+.app {
+  margin: 10px 30px 30px 30px;
+}
+
+.header {
+  width: 100%;
+  padding: 10px 0;
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerControls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.searchInput {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+
+  /* constraint behavior */
+  width: 520px; /* preferred large width on desktop */
+  max-width: calc(
+    100% - 160px
+  ); /* ensure room for select (adjust 160px if needed) */
+
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+  &:focus {
+    border-color: #b3b3b3;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Select: fixed width to the right of the input */
+.regionSelect {
+  width: 140px; /* fixed size so it won't wrap */
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+  &:focus {
+    border-color: #b3b3b3;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* Optional: a small space holder on the left (logo/title) — keep header balanced */
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Mobile: stack controls and make input full-width */
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .headerControls {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .searchInput,
+  .regionSelect {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .regionSelect {
+    width: 100%;
+  }
+}
+
+/* Small tweak for very wide screens: allow input a bit larger */
+@media (min-width: 1400px) {
+  .searchInput {
+    width: 640px;
+    max-width: calc(100% - 180px);
+  }
+}
+
 .countryList {
   display: grid;
   gap: 16px;
-  padding: 20px;
+  padding-top: 40px;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  grid-auto-rows: 220px; /* stable card height on desktop */
-  box-sizing: border-box;
+  grid-auto-rows: 220px;
 }
 
 .countryItem {
@@ -23,7 +128,6 @@
   transition: transform 220ms ease, box-shadow 220ms ease;
   overflow: hidden;
   cursor: pointer;
-  box-sizing: border-box;
 
   &:hover {
     transform: translateY(-3px);
@@ -38,7 +142,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
 }
 
 .flagWrap img {
@@ -59,7 +162,6 @@
   gap: 10px;
   text-align: center;
   padding-top: 6px;
-  box-sizing: border-box;
 }
 
 .rightSide {
@@ -72,7 +174,6 @@
   min-width: 240px;
   height: 100%;
   overflow-y: auto;
-  box-sizing: border-box;
   text-align: start;
 }
 

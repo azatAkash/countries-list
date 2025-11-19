@@ -35,26 +35,26 @@ export default function App() {
   });
 
   return (
-    <>
+    <div className={styles.app}>
       <header className={styles.header}>
-        <div className={styles.controls}>
+        <div className={styles.headerControls}>
           <input
-            className={styles.search}
+            className={styles.searchInput}
             type="text"
+            placeholder="Search countries..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Search countries..."
           />
 
           <select
-            className={styles.select}
+            className={styles.regionSelect}
             value={selectedRegion}
             onChange={(e) => setSelectedRegion(e.target.value)}
           >
             <option value="All">All regions</option>
-            {regions.map((region) => (
-              <option key={region} value={region}>
-                {region}
+            {regions.map((r) => (
+              <option key={r} value={r}>
+                {r}
               </option>
             ))}
           </select>
@@ -106,6 +106,6 @@ export default function App() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
