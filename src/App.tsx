@@ -4,6 +4,8 @@ import styles from "./styles/App.module.scss";
 
 function App() {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("All");
 
   useEffect(() => {
     async function getCountries() {
@@ -17,20 +19,61 @@ function App() {
     getCountries();
   }, []);
 
+  const regions: string[] = Array.from(
+    new Set(countries.map((c) => c.region))
+  ).sort();
+
+  // Filter countries by name + region
+  const filteredCountries: Country[] = countries.filter((country) => {
+    const matchesName = country.name.common
+      .toLowerCase()
+      .includes(inputValue.toLowerCase());
+
+    const matchesRegion =
+      selectedRegion === "All" || country.region === selectedRegion;
+
+    return matchesName && matchesRegion;
+  });
+
   return (
-    <div className={styles.countryList}>
-      {countries.map((country) => (
-        <div className={styles.countryItem} key={country.name.common}>
-          <img
-            src={country.flags.png}
-            alt={country.flags.alt ?? country.name.common}
-            width={120}
+    <>
+      <header className="header">
+        <div>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Search countries..."
           />
 
-          <h3>{country.name.common}</h3>
+          <select
+            value={selectedRegion}
+            onChange={(e) => setSelectedRegion(e.target.value)}
+          >
+            <option value="All">All regions</option>
+            {regions.map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </select>
         </div>
-      ))}
-    </div>
+      </header>
+
+      <p>Total countries found: {filteredCountries.length}</p>
+
+      <div className={styles.countryList}>
+        {filteredCountries.map((country) => (
+          <div className={styles.countryItem} key={country.name.common}>
+            <img
+              src={country.flags.png}
+              alt={country.flags.alt ?? country.name.common}
+            />
+            <h3>{country.name.common}</h3>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
