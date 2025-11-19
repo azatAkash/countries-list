@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import headerStyles from "./styles/header.module.scss";
+import layoutStyles from "./styles/App.module.scss";
+import cardStyles from "./styles/card.module.scss";
 import type { Country } from "./types/country";
-import styles from "./styles/App.module.scss";
 
 export default function App() {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [inputValue, setInputValue] = useState<string>("");
-  const [selectedRegion, setSelectedRegion] = useState<string>("All");
+  const [inputValue, setInputValue] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("All");
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
   useEffect(() => {
@@ -19,35 +21,25 @@ export default function App() {
     getCountries();
   }, []);
 
-  const regions: string[] = Array.from(
-    new Set(countries.map((c) => c.region))
-  ).sort();
-
-  const filteredCountries = countries.filter((country) => {
-    const matchesName = country.name.common
-      .toLowerCase()
-      .includes(inputValue.toLowerCase());
-
-    const matchesRegion =
-      selectedRegion === "All" || selectedRegion === country.region;
-
-    return matchesName && matchesRegion;
-  });
+  const regions = Array.from(new Set(countries.map((c) => c.region))).sort();
+  const filtered = countries.filter(
+    (c) =>
+      c.name.common.toLowerCase().includes(inputValue.toLowerCase()) &&
+      (selectedRegion === "All" || c.region === selectedRegion)
+  );
 
   return (
-    <div className={styles.app}>
-      <header className={styles.header}>
-        <div className={styles.headerControls}>
+    <div className={layoutStyles.app}>
+      <header className={headerStyles.header}>
+        <div className={headerStyles.headerControls}>
           <input
-            className={styles.searchInput}
-            type="text"
+            className={headerStyles.searchInput}
             placeholder="Search countries..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-
           <select
-            className={styles.regionSelect}
+            className={headerStyles.regionSelect}
             value={selectedRegion}
             onChange={(e) => setSelectedRegion(e.target.value)}
           >
@@ -61,25 +53,24 @@ export default function App() {
         </div>
       </header>
 
-      <p className={styles.counter}>
-        Total countries found: {filteredCountries.length}
-      </p>
+      <div className={layoutStyles.counter}>
+        Total countries found: {filtered.length}
+      </div>
 
-      <div className={styles.countryList}>
-        {filteredCountries.map((country) => {
+      <div className={layoutStyles.countryList}>
+        {filtered.map((country) => {
           const isSelected =
             selectedCountry?.name.common === country.name.common;
-
           return (
-            <div
+            <article
               key={country.name.common}
-              className={`${styles.countryItem} ${
-                isSelected ? styles.expanded : ""
+              className={`${cardStyles.countryItem} ${
+                isSelected ? cardStyles.expanded : ""
               }`}
               onClick={() => setSelectedCountry(isSelected ? null : country)}
             >
-              <div className={styles.leftSide}>
-                <div className={styles.flagWrap}>
+              <div className={cardStyles.leftSide}>
+                <div className={cardStyles.flagWrap}>
                   <img
                     src={country.flags.svg || country.flags.png}
                     alt={country.name.common}
@@ -89,7 +80,10 @@ export default function App() {
               </div>
 
               {isSelected && (
-                <div className={styles.rightSide}>
+                <div className={cardStyles.rightSide}>
+                  <p>
+                    <strong>Official:</strong> {country.name.official}
+                  </p>
                   <p>
                     <strong>Capital:</strong> {country.capital?.[0] ?? "—"}
                   </p>
@@ -102,7 +96,7 @@ export default function App() {
                   </p>
                 </div>
               )}
-            </div>
+            </article>
           );
         })}
       </div>

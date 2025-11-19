@@ -1,0 +1,105 @@
+.countryItem {
+  height: 100%; /* fill grid row */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.countryItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* flag area with fixed box */
+.flagWrap {
+  width: 100%;
+  height: 120px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.flagWrap img {
+  display: block;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Left side: flag + name */
+.leftSide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  text-align: center;
+  padding-top: 6px;
+  box-sizing: border-box;
+}
+
+/* Right side: details (keeps within card height and scrolls if needed) */
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding-left: 20px;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  min-width: 240px;
+  height: 100%;
+  overflow-y: auto;
+  text-align: start;
+  box-sizing: border-box;
+}
+
+/* Expanded card: horizontal, spans columns for extra width */
+.expanded {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  grid-column: span 2;
+
+  .flagWrap {
+    height: 140px;
+  }
+
+  .flagWrap img {
+    max-width: 160px;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* responsive fallback: stacked layout on narrow screens */
+@media (max-width: 510px) {
+  .countryList {
+    grid-auto-rows: auto;
+  }
+  .expanded {
+    grid-column: auto;
+    flex-direction: column;
+  }
+  .rightSide {
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+    min-width: 0;
+    margin-top: 10px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .flagWrap {
+    height: 120px;
+  }
+}
