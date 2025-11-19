@@ -79,10 +79,12 @@ export default function App() {
               onClick={() => setSelectedCountry(isSelected ? null : country)}
             >
               <div className={styles.leftSide}>
-                <img
-                  src={country.flags.png}
-                  alt={country.flags.alt ?? country.name.common}
-                />
+                <div className={styles.flagWrap}>
+                  <img
+                    src={country.flags.svg || country.flags.png}
+                    alt={country.name.common}
+                  />
+                </div>
                 <h3>{country.name.common}</h3>
               </div>
 
