@@ -1,4 +1,3 @@
-import React from "react";
 import type { Country } from "../../types/country";
 
 import CountryCard from "./CountryCard";
